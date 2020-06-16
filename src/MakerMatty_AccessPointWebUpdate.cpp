@@ -2,7 +2,7 @@
 
 #include "MakerMatty_AccessPointWebUpdate.h"
 
-namespace APWebUpdate {
+namespace AccessPointWebUpdate {
 
 #define DNS_PORT 53
 #define HTTPSERVER_PORT 80
