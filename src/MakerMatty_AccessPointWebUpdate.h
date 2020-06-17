@@ -10,7 +10,7 @@
 
 #include <Arduino.h>
 
-// #include <DNSServer.h>
+#include <DNSServer.h>
 #include <ESPmDNS.h>
 #include <Update.h>
 #include <WebServer.h>

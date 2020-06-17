@@ -7,12 +7,12 @@ namespace AccessPointWebUpdate {
 #define DNS_PORT 53
 #define HTTPSERVER_PORT 80
 
-const IPAddress ap_local_IP(192, 168, 1, 1);
-const IPAddress ap_gateway(192, 168, 1, 1);
+const IPAddress ap_local_IP(8, 8, 8, 8);
+const IPAddress ap_gateway(8, 8, 8, 8);
 const IPAddress ap_subnet(255, 255, 255, 0);
 
 WebServer server(HTTPSERVER_PORT);
-//DNSServer dnsServer;
+DNSServer dnsServer;
 
 const char* serverIndex = "<!DOCTYPE html>"
                           "<html lang=\"en\">"
@@ -46,14 +46,16 @@ void start(const char* ssid, const char* password, const char* host)
     /* added to start with the wifi off, avoid crashing */
     WiFi.disconnect();
     WiFi.mode(WIFI_OFF);
-
     WiFi.mode(WIFI_AP);
-    WiFi.softAPConfig(ap_local_IP, ap_gateway, ap_subnet);
+    /* this causes problems in the current version of Arduino esp32 package */
+    // WiFi.softAPConfig(ap_local_IP, ap_gateway, ap_subnet);
     WiFi.softAP(ssid, password);
+    log_i("Software AP running");
 
-    // dnsServer.start(DNS_PORT, "*", ap_local_IP);
+    log_i("ssid: %s, password: %s, host: %s", ssid ? ssid : "NULL", password ? password : "NULL", host ? host : "NULL");
 
-    log_i("ssid: %s, password: %s, host: %s", ssid, password, host);
+    dnsServer.start(DNS_PORT, "*", ap_local_IP);
+    log_i("DNS server started");
 
     /* return index page which is stored in serverIndex */
     server.on("/", HTTP_GET,
@@ -71,8 +73,7 @@ void start(const char* ssid, const char* password, const char* host)
         });
 
     /* handling uploading firmware file */
-    server.on(
-        "/start", HTTP_POST,
+    server.on("/start", HTTP_POST,
         []() {
             server.sendHeader("Connection", "close");
             server.send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK");
@@ -101,6 +102,14 @@ void start(const char* ssid, const char* password, const char* host)
             }
         });
 
+    server.on("/gen_204", []() {
+        server.send(204, "");
+    });
+
+    server.on("/generate_204", []() {
+        server.send(204, "");
+    });
+
     server.onNotFound([]() {
         server.send(404, "text/html", "404 - Page not found");
     });
@@ -119,7 +128,7 @@ void start(const char* ssid, const char* password, const char* host)
     }
 
     while (true) {
-        // dnsServer.processNextRequest();
+        dnsServer.processNextRequest();
         server.handleClient();
         delay(0);
     }
