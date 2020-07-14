@@ -8,8 +8,6 @@ namespace AccessPointWebUpdate {
 #define HTTPSERVER_PORT 80
 
 const IPAddress ap_local_IP(8, 8, 8, 8);
-
-const IPAddress ap_local_IP(8, 8, 8, 8);
 const IPAddress ap_gateway(8, 8, 8, 8);
 const IPAddress ap_subnet(255, 255, 255, 0);
 
