@@ -8,6 +8,8 @@ namespace AccessPointWebUpdate {
 #define HTTPSERVER_PORT 80
 
 const IPAddress ap_local_IP(8, 8, 8, 8);
+
+const IPAddress ap_local_IP(8, 8, 8, 8);
 const IPAddress ap_gateway(8, 8, 8, 8);
 const IPAddress ap_subnet(255, 255, 255, 0);
 
@@ -54,7 +56,8 @@ void start(const char* ssid, const char* password, const char* host)
 
     log_i("ssid: %s, password: %s, host: %s", ssid ? ssid : "NULL", password ? password : "NULL", host ? host : "NULL");
 
-    dnsServer.start(DNS_PORT, "*", ap_local_IP);
+    dnsServer.start(DNS_PORT, "*", WiFi.softAPIP());
+
     log_i("DNS server started");
 
     /* return index page which is stored in serverIndex */

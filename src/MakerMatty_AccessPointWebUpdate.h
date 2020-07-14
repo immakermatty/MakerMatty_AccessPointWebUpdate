@@ -21,7 +21,7 @@
 
 namespace AccessPointWebUpdate {
 
-void start(const char* ssid = "ESP32_UPDATE", const char* password = nullptr, const char* host = "update");
+void start(const char* ssid, const char* password = nullptr, const char* host = "update");
 
 };
 
