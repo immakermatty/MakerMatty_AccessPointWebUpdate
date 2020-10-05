@@ -1,0 +1,22 @@
+{
+    "name": "MakerMatty_AccessPointWebUpdate",
+    "version": "1.0.0",
+    "description": "",
+    "keywords": "esp32, ota",
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/immakermatty/MakerMatty_AccessPointWebUpdate.git"
+    },
+    "authors":
+    [
+      {
+        "name": "Matej Suchanek",
+        "email": "maker@matejsuchanek.cz",
+        "url": "maker.matejsuchanek.cz",
+        "maintainer": true
+      }
+    ],
+    "frameworks": "arduino",
+    "platforms": "espressif32"
+  }
